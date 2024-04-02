@@ -194,7 +194,7 @@ func NewSqlStore(db *sql.DB) (Store, error) {
 			rights_print, rights_copy, rights_start, rights_end, content_fk
 			FROM license
 			WHERE content_fk=? LIMIT ? OFFSET ?`
-		updaterightsquery = "UPDATE license SET rights_print=?, rights_copy=?, rights_start=?, rights_end=?,u pdated=? WHERE id=?"
+		updaterightsquery = "UPDATE license SET rights_print=?, rights_copy=?, rights_start=?, rights_end=?, updated=? WHERE id=?"
 		addquery = `INSERT INTO license (id, user_id, provider, issued, updated,
 			rights_print, rights_copy, rights_start, rights_end, content_fk) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
