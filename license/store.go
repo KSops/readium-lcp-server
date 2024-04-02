@@ -41,7 +41,6 @@ type sqlStore struct {
 
 // ListAll lists all licenses in ante-chronological order
 // pageNum starts at 0
-//
 func (s *sqlStore) ListAll(page int, pageNum int) func() (LicenseReport, error) {
 	listLicenses, err := s.listall.Query(page, pageNum*page)
 	if err != nil {
@@ -69,7 +68,6 @@ func (s *sqlStore) ListAll(page int, pageNum int) func() (LicenseReport, error) 
 
 // List lists licenses for a given ContentID
 // pageNum starting at 0
-//
 func (s *sqlStore) List(contentID string, page int, pageNum int) func() (LicenseReport, error) {
 	listLicenses, err := s.list.Query(contentID, page, pageNum*page)
 	if err != nil {
@@ -95,7 +93,6 @@ func (s *sqlStore) List(contentID string, page int, pageNum int) func() (License
 }
 
 // UpdateRights
-//
 func (s *sqlStore) UpdateRights(l License) error {
 	result, err := s.updaterights.Exec(l.Rights.Print, l.Rights.Copy, l.Rights.Start, l.Rights.End, time.Now().UTC().Truncate(time.Second), l.ID)
 
@@ -108,7 +105,6 @@ func (s *sqlStore) UpdateRights(l License) error {
 }
 
 // Add creates a new record in the license table
-//
 func (s *sqlStore) Add(l License) error {
 	_, err := s.add.Exec(
 		l.ID, l.User.ID, l.Provider, l.Issued, nil,
@@ -118,7 +114,6 @@ func (s *sqlStore) Add(l License) error {
 }
 
 // Update updates a record in the license table
-//
 func (s *sqlStore) Update(l License) error {
 	_, err := s.update.Exec(
 		l.User.ID, l.Provider,
@@ -131,7 +126,6 @@ func (s *sqlStore) Update(l License) error {
 }
 
 // UpdateLsdStatus
-//
 func (s *sqlStore) UpdateLsdStatus(id string, status int32) error {
 	_, err := s.updatelsdstatus.Exec(
 		status,
@@ -141,7 +135,6 @@ func (s *sqlStore) UpdateLsdStatus(id string, status int32) error {
 }
 
 // Get a license from the db
-//
 func (s *sqlStore) Get(id string) (License, error) {
 	// create an empty license, add user rights
 	var l License
@@ -165,7 +158,6 @@ func (s *sqlStore) Get(id string) (License, error) {
 }
 
 // NewSqlStore
-//
 func NewSqlStore(db *sql.DB) (Store, error) {
 	var tabledefquery, listallquery, listquery, updaterightsquery, addquery, updatequery, updatelsdstatusquery, getquery string
 
@@ -226,36 +218,43 @@ func NewSqlStore(db *sql.DB) (Store, error) {
 
 	listall, err := db.Prepare(listallquery)
 	if err != nil {
+		log.Println("Error preparing listallquery")
 		return nil, err
 	}
 
 	list, err := db.Prepare(listquery)
 	if err != nil {
+		log.Println("Error preparing listquery")
 		return nil, err
 	}
 
 	updaterights, err := db.Prepare(updaterightsquery)
 	if err != nil {
+		log.Println("Error preparing updaterightsquery")
 		return nil, err
 	}
 
 	add, err := db.Prepare(addquery)
 	if err != nil {
+		log.Println("Error preparing addquery")
 		return nil, err
 	}
 
 	update, err := db.Prepare(updatequery)
 	if err != nil {
+		log.Println("Error preparing updatequery")
 		return nil, err
 	}
 
 	updatelsdstatus, err := db.Prepare(updatelsdstatusquery)
 	if err != nil {
+		log.Println("Error preparing updatelsdstatusquery")
 		return nil, err
 	}
 
 	get, err := db.Prepare(getquery)
 	if err != nil {
+		log.Println("Error preparing getquery")
 		return nil, err
 	}
 
