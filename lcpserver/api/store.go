@@ -124,7 +124,7 @@ func AddContent(w http.ResponseWriter, r *http.Request, s Server) {
 	// open the encrypted file, use its full path
 	file, err := getAndOpenFile(publication.Output)
 	if err != nil {
-		problem.Error(w, r, problem.Problem{Detail: err.Error()}, http.StatusBadRequest)
+		problem.Error(w, r, problem.Problem{Detail: fmt.Sprintf("[getAndOpenFile] %s", err.Error())}, http.StatusBadRequest)
 		return
 	}
 	// the input file will be deleted when the function returns
